@@ -1,0 +1,6 @@
+.menu-background-image {
+  background-image: url("../../assets/menu-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
