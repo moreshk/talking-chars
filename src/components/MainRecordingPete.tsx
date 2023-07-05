@@ -5,8 +5,8 @@ import stopRecording from "../assets/stop-recording.png";
 import { SpeechRecognition } from "@ionic-native/speech-recognition";
 import { TextToSpeech } from "@ionic-native/text-to-speech";
 import { openai } from "../utils/openAi";
-import { NativeAudio } from "@awesome-cordova-plugins/native-audio";
-const MainRecording = ({
+
+const MainRecordingPete = ({
   setMessage,
 }: {
   setMessage: (str: string) => void;
@@ -82,7 +82,7 @@ const MainRecording = ({
   );
 };
 
-export default MainRecording;
+export default MainRecordingPete;
 
 const S = {
   Record: styled.div`

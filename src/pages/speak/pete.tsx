@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 import RecordVoice from "../../components/RecordVoice";
 import TextToSpeach from "../../components/speachToText";
-import MainRecording from "../../components/MainRecording";
+import MainRecordingPete from "../../components/MainRecordingPete";
 
 const Pete = () => {
   const [isToastOpen, setIsToastOpen] = useState(false);
@@ -39,7 +39,7 @@ const Pete = () => {
         </S.Speaker>
         <RecordVoice />
         <TextToSpeach />
-        <MainRecording setMessage={setMessage} />
+        <MainRecordingPete setMessage={setMessage} />
       </div>
       <IonToast
         isOpen={isToastOpen}

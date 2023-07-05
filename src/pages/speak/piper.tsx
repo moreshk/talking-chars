@@ -5,12 +5,17 @@ import sound from "../../assets/sound.png";
 import bubble from "../../assets/speech-bubble.png";
 import record from "../../assets/record.png";
 import backButton from "../../assets/backButton.png";
-import { TextToSpeech } from "@ionic-native/text-to-speech";
 import { useHistory } from "react-router";
 import PirateGirl from "../../assets/pirate-girl.png";
+import RecordVoice from "../../components/RecordVoice";
+import TextToSpeach from "../../components/speachToText";
+import { useState } from "react";
+import MainRecordingPiper from "../../components/MainRecordingPiper";
 
 const Piper = () => {
   const { push } = useHistory();
+  const [message, setMessage] = useState<string | undefined>("");
+
   return (
     <IonPage id="piper">
       <div className="speak-background-image">
@@ -26,26 +31,15 @@ const Piper = () => {
           </S.ActionButton>
         </S.Icons>
         <S.Bubble>
-          <S.Text>Hello there</S.Text>
+          <S.Text>{message}</S.Text>
         </S.Bubble>
         <S.Speaker>
           <img src={PirateGirl} width={250} height={250} />
         </S.Speaker>
       </div>
-      <S.Record
-        onClick={() => {
-          TextToSpeech.speak("hello, world!").then(
-            function () {
-              console.log("sdfakldsfj");
-            },
-            function (reason) {
-              console.log("sdfakldsfj");
-            }
-          );
-        }}
-      >
-        <img src={record} height={80} />
-      </S.Record>
+      <RecordVoice />
+      <TextToSpeach />
+      <MainRecordingPiper setMessage={setMessage} />
     </IonPage>
   );
 };
