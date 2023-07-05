@@ -5,7 +5,7 @@ import stopRecording from "../assets/stop-recording.png";
 import { SpeechRecognition } from "@ionic-native/speech-recognition";
 import { TextToSpeech } from "@ionic-native/text-to-speech";
 import { openai } from "../utils/openAi";
-
+import { NativeAudio } from "@awesome-cordova-plugins/native-audio";
 const MainRecording = ({
   setMessage,
 }: {
@@ -37,12 +37,30 @@ const MainRecording = ({
                   });
                   const response =
                     completion.data.choices[0].message?.content || "";
+                  const voiceResponse = await fetch(
+                    "https://api.elevenlabs.io/v1/text-to-speech/jIBWwhRngkm8so6GFCYC",
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        "xi-api-key": "54561ffff91ad94269b60d4f8a84edcf",
+                      },
+                      body: JSON.stringify({
+                        text: response,
+                        voice_settings: {
+                          stability: 0,
+                          similarity_boost: 0,
+                          style: 0.5,
+                          use_speaker_boost: false,
+                        },
+                      }),
+                    }
+                  );
+                  const audioBlob = await voiceResponse.blob();
+                  const audioUrl = URL.createObjectURL(audioBlob);
+                  const audioElement = new Audio(audioUrl);
+                  audioElement.play();
                   setMessage(response);
-                  TextToSpeech.speak({
-                    text: response,
-                    locale: "en-US",
-                    rate: 0.1,
-                  });
                 } catch (e) {
                   console.log(e);
                 }

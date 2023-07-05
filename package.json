@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@awesome-cordova-plugins/core": "6.3.0",
+    "@awesome-cordova-plugins/native-audio": "^6.3.0",
     "@awesome-cordova-plugins/speech-recognition": "^6.3.0",
     "@capacitor/android": "5.1.0",
     "@capacitor/app": "5.0.5",
@@ -30,6 +31,7 @@
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "capacitor-voice-recorder": "^5.0.0",
+    "cordova-plugin-nativeaudio": "^3.0.9",
     "cordova-plugin-speechrecognition": "^1.2.0",
     "cordova-plugin-tts": "^0.2.3",
     "ionicons": "^7.0.0",

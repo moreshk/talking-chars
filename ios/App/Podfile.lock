@@ -57,7 +57,7 @@ SPEC CHECKSUMS:
   CapacitorKeyboard: ba4d618d80bf8caef4b9d8a971d714b9ca795e28
   CapacitorStatusBar: 540867ac3c63875b65bebd888f695de50a13a9a2
   CapacitorVoiceRecorder: 872ea857b497ce2c71afe3e4eb5de0a74290c0db
-  CordovaPlugins: d19255dfdf970ca56b49a658349f93b5d8017701
+  CordovaPlugins: 2ea118b5b6e22a20714acbf6d40b111862c18aa8
 
 PODFILE CHECKSUM: b79f99db550d02aaea54cf15c9eb702e9e91c334
 
