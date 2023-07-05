@@ -33,6 +33,7 @@
     "cordova-plugin-speechrecognition": "^1.2.0",
     "cordova-plugin-tts": "^0.2.3",
     "ionicons": "^7.0.0",
+    "openai": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^5.3.4",

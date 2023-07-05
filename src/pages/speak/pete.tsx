@@ -15,6 +15,7 @@ const Pete = () => {
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const { push } = useHistory();
+  const [message, setMessage] = useState<string | undefined>("");
 
   return (
     <IonPage id="pete">
@@ -31,14 +32,14 @@ const Pete = () => {
           </S.ActionButton>
         </S.Icons>
         <S.Bubble>
-          <S.Text>Hello there</S.Text>
+          <S.Text>{message}</S.Text>
         </S.Bubble>
         <S.Speaker>
           <img src={PirateBoy} width={250} height={250} />
         </S.Speaker>
         <RecordVoice />
         <TextToSpeach />
-        <MainRecording />
+        <MainRecording setMessage={setMessage} />
       </div>
       <IonToast
         isOpen={isToastOpen}
