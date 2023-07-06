@@ -43,7 +43,7 @@ const MainRecordingPiper = ({
                   const response =
                     completion.data.choices[0].message?.content || "";
                   const voiceResponse = await fetch(
-                    "https://api.elevenlabs.io/v1/text-to-speech/jIBWwhRngkm8so6GFCYC",
+                    "https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM",
                     {
                       method: "POST",
                       headers: {
