@@ -8,8 +8,12 @@ import { openai } from "../utils/openAi";
 
 const MainRecordingPiper = ({
   setMessage,
+  setSpeaking,
+  setLoading,
 }: {
   setMessage: (str: string) => void;
+  setSpeaking: (val: boolean) => void;
+  setLoading: (val: boolean) => void;
 }) => {
   const [startRecording, setStartRecording] = useState(false);
 
@@ -23,6 +27,7 @@ const MainRecordingPiper = ({
           } else {
             SpeechRecognition.startListening().subscribe(
               async (matches: string[]) => {
+                setLoading(true);
                 try {
                   const completion = await openai.createChatCompletion({
                     model: "gpt-3.5-turbo",
@@ -37,11 +42,34 @@ const MainRecordingPiper = ({
                   });
                   const response =
                     completion.data.choices[0].message?.content || "";
-                  TextToSpeech.speak({
-                    text: response,
-                    locale: "en-US",
-                    rate: 0.1,
-                  });
+                  const voiceResponse = await fetch(
+                    "https://api.elevenlabs.io/v1/text-to-speech/jIBWwhRngkm8so6GFCYC",
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        "xi-api-key": "54561ffff91ad94269b60d4f8a84edcf",
+                      },
+                      body: JSON.stringify({
+                        text: response,
+                        voice_settings: {
+                          stability: 0,
+                          similarity_boost: 0,
+                          style: 0.5,
+                          use_speaker_boost: false,
+                        },
+                      }),
+                    }
+                  );
+                  const audioBlob = await voiceResponse.blob();
+                  const audioUrl = URL.createObjectURL(audioBlob);
+                  const audioElement = new Audio(audioUrl);
+                  setLoading(false);
+                  setSpeaking(true);
+                  audioElement.play();
+                  audioElement.onended = () => {
+                    setSpeaking(false);
+                  };
                   setMessage(response);
                 } catch (e) {
                   console.log(e);

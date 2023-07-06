@@ -1,5 +1,6 @@
 import "./speak.css";
 import PirateBoy from "../../assets/pirate-boy.png";
+import TalkingPirateBoy from "../../assets/talking-pete.gif";
 import backButton from "../../assets/backButton.png";
 import sound from "../../assets/sound.png";
 import bubble from "../../assets/speech-bubble.png";
@@ -16,6 +17,8 @@ const Pete = () => {
   const [toastMessage, setToastMessage] = useState("");
   const { push } = useHistory();
   const [message, setMessage] = useState<string | undefined>("");
+  const [speaking, setSpeaking] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <IonPage id="pete">
@@ -32,14 +35,22 @@ const Pete = () => {
           </S.ActionButton>
         </S.Icons>
         <S.Bubble>
-          <S.Text>{message}</S.Text>
+          <S.Text>{loading ? "hmm........" : message}</S.Text>
         </S.Bubble>
         <S.Speaker>
-          <img src={PirateBoy} width={250} height={250} />
+          <img
+            src={speaking ? TalkingPirateBoy : PirateBoy}
+            width={250}
+            height={250}
+          />
         </S.Speaker>
         <RecordVoice />
         <TextToSpeach />
-        <MainRecordingPete setMessage={setMessage} />
+        <MainRecordingPete
+          setMessage={setMessage}
+          setSpeaking={setSpeaking}
+          setLoading={setLoading}
+        />
       </div>
       <IonToast
         isOpen={isToastOpen}
@@ -94,10 +105,11 @@ const S = {
   Text: styled.div`
     position: absolute;
     top: 60px;
-    left: 60px;
+    left: 40px;
     font-size: 16px;
     font-weight: bold;
     color: #000;
+    width: 280px;
   `,
   ActionButton: styled.div`
     cursor: pointer;

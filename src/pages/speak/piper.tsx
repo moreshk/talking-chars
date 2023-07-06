@@ -3,18 +3,21 @@ import "./speak.css";
 import { IonPage } from "@ionic/react";
 import sound from "../../assets/sound.png";
 import bubble from "../../assets/speech-bubble.png";
-import record from "../../assets/record.png";
 import backButton from "../../assets/backButton.png";
 import { useHistory } from "react-router";
 import PirateGirl from "../../assets/pirate-girl.png";
 import RecordVoice from "../../components/RecordVoice";
 import TextToSpeach from "../../components/speachToText";
 import { useState } from "react";
+import TalkingPirateGirl from "../../assets/talking-piper.gif";
+
 import MainRecordingPiper from "../../components/MainRecordingPiper";
 
 const Piper = () => {
   const { push } = useHistory();
   const [message, setMessage] = useState<string | undefined>("");
+  const [speaking, setSpeaking] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <IonPage id="piper">
@@ -31,15 +34,23 @@ const Piper = () => {
           </S.ActionButton>
         </S.Icons>
         <S.Bubble>
-          <S.Text>{message}</S.Text>
+          <S.Text>{loading ? "hmm........" : message}</S.Text>
         </S.Bubble>
         <S.Speaker>
-          <img src={PirateGirl} width={250} height={250} />
+          <img
+            src={speaking ? TalkingPirateGirl : PirateGirl}
+            width={250}
+            height={250}
+          />
         </S.Speaker>
       </div>
       <RecordVoice />
       <TextToSpeach />
-      <MainRecordingPiper setMessage={setMessage} />
+      <MainRecordingPiper
+        setMessage={setMessage}
+        setSpeaking={setSpeaking}
+        setLoading={setLoading}
+      />
     </IonPage>
   );
 };
@@ -86,10 +97,11 @@ const S = {
   Text: styled.div`
     position: absolute;
     top: 60px;
-    left: 60px;
+    left: 40px;
     font-size: 16px;
     font-weight: bold;
     color: #000;
+    width: 280px;
   `,
 
   Record: styled.div`

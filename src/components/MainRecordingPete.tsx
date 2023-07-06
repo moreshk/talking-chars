@@ -3,13 +3,16 @@ import record from "../assets/record.png";
 import { styled } from "styled-components";
 import stopRecording from "../assets/stop-recording.png";
 import { SpeechRecognition } from "@ionic-native/speech-recognition";
-import { TextToSpeech } from "@ionic-native/text-to-speech";
 import { openai } from "../utils/openAi";
 
 const MainRecordingPete = ({
   setMessage,
+  setSpeaking,
+  setLoading,
 }: {
   setMessage: (str: string) => void;
+  setSpeaking: (val: boolean) => void;
+  setLoading: (val: boolean) => void;
 }) => {
   const [startRecording, setStartRecording] = useState(false);
 
@@ -24,6 +27,7 @@ const MainRecordingPete = ({
             SpeechRecognition.startListening().subscribe(
               async (matches: string[]) => {
                 try {
+                  setLoading(true);
                   const completion = await openai.createChatCompletion({
                     model: "gpt-3.5-turbo",
                     messages: [
@@ -59,7 +63,12 @@ const MainRecordingPete = ({
                   const audioBlob = await voiceResponse.blob();
                   const audioUrl = URL.createObjectURL(audioBlob);
                   const audioElement = new Audio(audioUrl);
+                  setLoading(false);
+                  setSpeaking(true);
                   audioElement.play();
+                  audioElement.onended = () => {
+                    setSpeaking(false);
+                  };
                   setMessage(response);
                 } catch (e) {
                   console.log(e);
