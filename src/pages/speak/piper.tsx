@@ -10,7 +10,6 @@ import RecordVoice from "../../components/RecordVoice";
 import TextToSpeach from "../../components/speachToText";
 import { useState } from "react";
 import TalkingPirateGirl from "../../assets/talking-piper.gif";
-
 import MainRecordingPiper from "../../components/MainRecordingPiper";
 
 const Piper = () => {

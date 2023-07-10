@@ -4,7 +4,6 @@ import { styled } from "styled-components";
 import stopRecording from "../assets/stop-recording.png";
 import { SpeechRecognition } from "@ionic-native/speech-recognition";
 import { openai } from "../utils/openAi";
-import audioUrl from "../music/main-screen.mp3";
 
 const MainRecordingPete = ({
   setMessage,
@@ -16,16 +15,6 @@ const MainRecordingPete = ({
   setLoading: (val: boolean) => void;
 }) => {
   const [startRecording, setStartRecording] = useState(false);
-
-  useEffect(() => {
-    const element = new Audio(audioUrl);
-    element.volume = 0.1;
-    element.play();
-
-    return () => {
-      element.pause();
-    };
-  }, []);
 
   return (
     <S.Record
