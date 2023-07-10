@@ -5,15 +5,44 @@ import chataBoxImage from "../../assets/chattabox.png";
 import PirateGirl from "../../assets/pirate-girl.png";
 import PirateBoy from "../../assets/pirate-boy.png";
 import chooseBuddy from "../../assets/chooseBuddy.png";
+import ericTheExplorer from "../../assets/eric-the-explorer.png";
+import pennyThePrincess from "../../assets/penny-the-princess.png";
 import piper from "../../assets/piper.png";
 import penny from "../../assets/penny.png";
 import pete from "../../assets/pete.png";
 import eric from "../../assets/eric.png";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import Buddy from "../../components/Buddy";
+import audioUrl from "../../music/main-screen.mp3";
+import { useEffect, useRef } from "react";
 
 const Menu = () => {
-  const { push } = useHistory();
+  const audioRef = useRef<any>(null);
+  const location = useLocation();
+
+  const playAudio = () => {
+    const audioElement = new Audio(audioUrl);
+    audioElement.volume = 0.1;
+    audioElement.play();
+    audioRef.current = audioElement;
+  };
+
+  const pauseAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+  };
+
+  useEffect(() => {
+    if (location.pathname === "/menu") {
+      playAudio();
+    }
+
+    return () => {
+      pauseAudio();
+    };
+  }, [location.pathname]);
+
   return (
     <IonPage id="home-page">
       <IonContent fullscreen>
@@ -34,8 +63,8 @@ const Menu = () => {
           <div
             style={{ display: "flex", justifyContent: "center", gap: "40px" }}
           >
-            <Buddy titleImg={piper} charImg={penny} name="penny" />
-            <Buddy titleImg={pete} charImg={eric} name="eric" />
+            <Buddy titleImg={pennyThePrincess} charImg={penny} name="penny" />
+            <Buddy titleImg={ericTheExplorer} charImg={eric} name="eric" />
           </div>
         </div>
       </IonContent>

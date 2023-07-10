@@ -5,7 +5,7 @@ import stopRecording from "../assets/stop-recording.png";
 import { SpeechRecognition } from "@ionic-native/speech-recognition";
 import { openai } from "../utils/openAi";
 
-const MainRecordingPiper = ({
+const MainRecordingPenny = ({
   setMessage,
   setSpeaking,
   setLoading,
@@ -34,7 +34,7 @@ const MainRecordingPiper = ({
                       {
                         role: "system",
                         content:
-                          "Your role is a pirate character called Piper the Pirate from a story book. Your objective is to be an entertaining companion to a 6 year old child. You should respond to messages in a funny manner and your responses should include a lot of pirate slang such as matey, rrrrrrs, arrrrggghhh etc. Your responses should be short and witty and not exceed more than one or two sentences each time. Responses must be child friendly.",
+                          "Your role is a princess character called Penny from a story book. Your objective is to be an entertaining companion to a 6 year old child. You should respond to messages in a funny manner and your responses should include a lot of princess like things such as having good manners, going to balls, looking after your subjects etc. Your responses should be short and witty and not exceed more than one or two sentences each time. Responses must be child friendly.",
                       },
                       { role: "user", content: matches[0] },
                     ],
@@ -42,7 +42,7 @@ const MainRecordingPiper = ({
                   const response =
                     completion.data.choices[0].message?.content || "";
                   const voiceResponse = await fetch(
-                    "https://api.elevenlabs.io/v1/text-to-speech/UsbTp18WLaRmauNA3Hnn",
+                    "https://api.elevenlabs.io/v1/text-to-speech/d6h9rMX5IpAR9ZrWOmjm",
                     {
                       method: "POST",
                       headers: {
@@ -91,7 +91,7 @@ const MainRecordingPiper = ({
   );
 };
 
-export default MainRecordingPiper;
+export default MainRecordingPenny;
 
 const S = {
   Record: styled.div`

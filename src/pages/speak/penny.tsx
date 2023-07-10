@@ -10,7 +10,7 @@ import RecordVoice from "../../components/RecordVoice";
 import TextToSpeach from "../../components/speachToText";
 import { useState } from "react";
 import TalkingGirl from "../../assets/princess-talking.gif";
-import MainRecordingPiper from "../../components/MainRecordingPiper";
+import MainRecordingPenny from "../../components/MainRecordingPenny";
 
 const Penny = () => {
   const { push } = useHistory();
@@ -49,7 +49,7 @@ const Penny = () => {
       </div>
       <RecordVoice />
       <TextToSpeach />
-      <MainRecordingPiper
+      <MainRecordingPenny
         setMessage={setMessage}
         setSpeaking={setSpeaking}
         setLoading={setLoading}

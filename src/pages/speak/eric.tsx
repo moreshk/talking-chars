@@ -10,7 +10,7 @@ import RecordVoice from "../../components/RecordVoice";
 import TextToSpeach from "../../components/speachToText";
 import { useState } from "react";
 import TalkingExplore from "../../assets/explorer.gif";
-import MainRecordingPiper from "../../components/MainRecordingPiper";
+import MainRecordingEric from "../../components/MainRecordingEric";
 
 const Eric = () => {
   const { push } = useHistory();
@@ -45,7 +45,7 @@ const Eric = () => {
       </div>
       <RecordVoice />
       <TextToSpeach />
-      <MainRecordingPiper
+      <MainRecordingEric
         setMessage={setMessage}
         setSpeaking={setSpeaking}
         setLoading={setLoading}
