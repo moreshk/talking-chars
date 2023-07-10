@@ -7,6 +7,13 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: 'https'
   }
-};
+,
+    android: {
+       buildOptions: {
+          keystorePath: '/Users/pranavpatel/Downloads/chattabox-app-key',
+          keystoreAlias: 'chattabox-app-key',
+       }
+    }
+  };
 
 export default config;
