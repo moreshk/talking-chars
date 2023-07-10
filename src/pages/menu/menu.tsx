@@ -6,8 +6,11 @@ import PirateGirl from "../../assets/pirate-girl.png";
 import PirateBoy from "../../assets/pirate-boy.png";
 import chooseBuddy from "../../assets/chooseBuddy.png";
 import piper from "../../assets/piper.png";
+import penny from "../../assets/penny.png";
 import pete from "../../assets/pete.png";
+import eric from "../../assets/eric.png";
 import { useHistory } from "react-router";
+import Buddy from "../../components/Buddy";
 
 const Menu = () => {
   const { push } = useHistory();
@@ -21,17 +24,18 @@ const Menu = () => {
           <S.Heading>
             <img src={chooseBuddy} />
           </S.Heading>
+
           <div
             style={{ display: "flex", justifyContent: "center", gap: "40px" }}
           >
-            <S.ActionButton onClick={() => push("/speak/piper")}>
-              <img src={piper} />
-              <img src={PirateGirl} />
-            </S.ActionButton>
-            <S.ActionButton onClick={() => push("/speak/pete")}>
-              <img src={pete} />
-              <img src={PirateBoy} />
-            </S.ActionButton>
+            <Buddy titleImg={piper} charImg={PirateGirl} name="piper" />
+            <Buddy titleImg={pete} charImg={PirateBoy} name="pete" />
+          </div>
+          <div
+            style={{ display: "flex", justifyContent: "center", gap: "40px" }}
+          >
+            <Buddy titleImg={piper} charImg={penny} name="penny" />
+            <Buddy titleImg={pete} charImg={eric} name="eric" />
           </div>
         </div>
       </IonContent>

@@ -3,7 +3,6 @@ import record from "../assets/record.png";
 import { styled } from "styled-components";
 import stopRecording from "../assets/stop-recording.png";
 import { SpeechRecognition } from "@ionic-native/speech-recognition";
-import { TextToSpeech } from "@ionic-native/text-to-speech";
 import { openai } from "../utils/openAi";
 
 const MainRecordingPiper = ({

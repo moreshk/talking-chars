@@ -25,6 +25,8 @@ import "./theme/variables.css";
 import Menu from "./pages/menu/menu";
 import Piper from "./pages/speak/piper";
 import Pete from "./pages/speak/pete";
+import Penny from "./pages/speak/penny";
+import Eric from "./pages/speak/eric";
 
 setupIonicReact();
 
@@ -46,6 +48,12 @@ const App: React.FC = () => (
         </Route>
         <Route path="/speak/pete" exact={true}>
           <Pete />
+        </Route>
+        <Route path="/speak/penny" exact={true}>
+          <Penny />
+        </Route>
+        <Route path="/speak/eric" exact={true}>
+          <Eric />
         </Route>
         <Route path="/message/:id">
           <ViewMessage />
