@@ -33,16 +33,8 @@ const Menu = () => {
   };
 
   useEffect(() => {
-    document.addEventListener(
-      "pause",
-      function () {
-        pauseAudio();
-      },
-      false
-    );
-
     if (location.pathname === "/menu") {
-      playAudio();
+      // playAudio();
     }
   }, [location.pathname]);
 

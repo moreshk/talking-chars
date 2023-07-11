@@ -24,7 +24,7 @@ const MainRecordingPiper = ({
             setStartRecording(false);
             SpeechRecognition.stopListening();
           } else {
-            SpeechRecognition.startListening().subscribe(
+            SpeechRecognition.startListening({ showPopup: false }).subscribe(
               async (matches: string[]) => {
                 setLoading(true);
                 try {

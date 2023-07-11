@@ -24,57 +24,57 @@ const MainRecordingEric = ({
             setStartRecording(false);
             SpeechRecognition.stopListening();
           } else {
-            SpeechRecognition.startListening().subscribe(
-              async (matches: string[]) => {
-                setLoading(true);
-                try {
-                  const completion = await openai.createChatCompletion({
-                    model: "gpt-3.5-turbo",
-                    messages: [
-                      {
-                        role: "system",
-                        content:
-                          "Your role is an adventurer character called Eric the Explorer from a story book. Your objective is to be an entertaining companion to a 6 year old child. You should respond to messages in a funny manner and your responses should include a lot of explorer like things such as discovering new places, going on exotic adventures, learning about different cultures etc. Your responses should be short and witty and not exceed more than one or two sentences each time. Responses must be child friendly.",
-                      },
-                      { role: "user", content: matches[0] },
-                    ],
-                  });
-                  const response =
-                    completion.data.choices[0].message?.content || "";
-                  const voiceResponse = await fetch(
-                    "https://api.elevenlabs.io/v1/text-to-speech/P7igz6QOJ1M3ox5nSaHv",
+            SpeechRecognition.startListening({
+              showPopup: false,
+            }).subscribe(async (matches: string[]) => {
+              setLoading(true);
+              try {
+                const completion = await openai.createChatCompletion({
+                  model: "gpt-3.5-turbo",
+                  messages: [
                     {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                        "xi-api-key": "54561ffff91ad94269b60d4f8a84edcf",
+                      role: "system",
+                      content:
+                        "Your role is an adventurer character called Eric the Explorer from a story book. Your objective is to be an entertaining companion to a 6 year old child. You should respond to messages in a funny manner and your responses should include a lot of explorer like things such as discovering new places, going on exotic adventures, learning about different cultures etc. Your responses should be short and witty and not exceed more than one or two sentences each time. Responses must be child friendly.",
+                    },
+                    { role: "user", content: matches[0] },
+                  ],
+                });
+                const response =
+                  completion.data.choices[0].message?.content || "";
+                const voiceResponse = await fetch(
+                  "https://api.elevenlabs.io/v1/text-to-speech/P7igz6QOJ1M3ox5nSaHv",
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      "xi-api-key": "54561ffff91ad94269b60d4f8a84edcf",
+                    },
+                    body: JSON.stringify({
+                      text: response,
+                      voice_settings: {
+                        stability: 0,
+                        similarity_boost: 0,
+                        style: 0.5,
+                        use_speaker_boost: false,
                       },
-                      body: JSON.stringify({
-                        text: response,
-                        voice_settings: {
-                          stability: 0,
-                          similarity_boost: 0,
-                          style: 0.5,
-                          use_speaker_boost: false,
-                        },
-                      }),
-                    }
-                  );
-                  const audioBlob = await voiceResponse.blob();
-                  const audioUrl = URL.createObjectURL(audioBlob);
-                  const audioElement = new Audio(audioUrl);
-                  setLoading(false);
-                  setSpeaking(true);
-                  audioElement.play();
-                  audioElement.onended = () => {
-                    setSpeaking(false);
-                  };
-                  setMessage(response);
-                } catch (e) {
-                  console.log(e);
-                }
+                    }),
+                  }
+                );
+                const audioBlob = await voiceResponse.blob();
+                const audioUrl = URL.createObjectURL(audioBlob);
+                const audioElement = new Audio(audioUrl);
+                setLoading(false);
+                setSpeaking(true);
+                audioElement.play();
+                audioElement.onended = () => {
+                  setSpeaking(false);
+                };
+                setMessage(response);
+              } catch (e) {
+                console.log(e);
               }
-            );
+            });
             setStartRecording(true);
           }
         } catch (e) {
