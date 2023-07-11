@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import "./menu.css";
-import { IonContent, IonPage } from "@ionic/react";
+import { IonContent, IonPage, isPlatform } from "@ionic/react";
 import chataBoxImage from "../../assets/chattabox.png";
 import PirateGirl from "../../assets/pirate-girl.png";
 import PirateBoy from "../../assets/pirate-boy.png";
@@ -15,14 +15,13 @@ import { useLocation } from "react-router";
 import Buddy from "../../components/Buddy";
 import audioUrl from "../../music/main-screen.mp3";
 import { useEffect, useRef } from "react";
-import { Media } from "@awesome-cordova-plugins/media";
 const Menu = () => {
   const audioRef = useRef<any>(null);
   const location = useLocation();
 
   const playAudio = () => {
-    const audioElement = Media.create(audioUrl);
-    audioElement.setVolume(0.1);
+    const audioElement = new Audio(audioUrl);
+    // audioElement.setVolume(0.1);
     audioElement.play();
     audioRef.current = audioElement;
   };
@@ -34,13 +33,17 @@ const Menu = () => {
   };
 
   useEffect(() => {
+    document.addEventListener(
+      "pause",
+      function () {
+        pauseAudio();
+      },
+      false
+    );
+
     if (location.pathname === "/menu") {
       playAudio();
     }
-
-    return () => {
-      pauseAudio();
-    };
   }, [location.pathname]);
 
   return (
