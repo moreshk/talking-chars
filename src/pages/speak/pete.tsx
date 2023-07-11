@@ -10,7 +10,8 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 import RecordVoice from "../../components/RecordVoice";
 import TextToSpeach from "../../components/speachToText";
-import MainRecordingPete from "../../components/MainRecordingPete";
+import MainRecording from "../../components/MainRecording";
+import { explorers } from "../../data/explorers";
 
 const Pete = () => {
   const [isToastOpen, setIsToastOpen] = useState(false);
@@ -52,7 +53,9 @@ const Pete = () => {
         </S.Speaker>
         <RecordVoice />
         <TextToSpeach />
-        <MainRecordingPete
+        <MainRecording
+          prompt={explorers.pete.prompt}
+          voiceId={explorers.pete.voiceId}
           setMessage={setMessage}
           setSpeaking={setSpeaking}
           setLoading={setLoading}

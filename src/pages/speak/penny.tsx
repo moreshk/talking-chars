@@ -10,7 +10,8 @@ import RecordVoice from "../../components/RecordVoice";
 import TextToSpeach from "../../components/speachToText";
 import { useState } from "react";
 import TalkingGirl from "../../assets/princess-talking.gif";
-import MainRecordingPenny from "../../components/MainRecordingPenny";
+import MainRecording from "../../components/MainRecording";
+import { explorers } from "../../data/explorers";
 
 const Penny = () => {
   const { push } = useHistory();
@@ -55,7 +56,9 @@ const Penny = () => {
       </div>
       <RecordVoice />
       <TextToSpeach />
-      <MainRecordingPenny
+      <MainRecording
+        prompt={explorers.penny.prompt}
+        voiceId={explorers.penny.voiceId}
         setMessage={setMessage}
         setSpeaking={setSpeaking}
         setLoading={setLoading}

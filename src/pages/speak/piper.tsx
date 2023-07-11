@@ -10,7 +10,8 @@ import RecordVoice from "../../components/RecordVoice";
 import TextToSpeach from "../../components/speachToText";
 import { useState } from "react";
 import TalkingPirateGirl from "../../assets/talking-piper.gif";
-import MainRecordingPiper from "../../components/MainRecordingPiper";
+import MainRecording from "../../components/MainRecording";
+import { explorers } from "../../data/explorers";
 
 const Piper = () => {
   const { push } = useHistory();
@@ -51,7 +52,9 @@ const Piper = () => {
       </div>
       <RecordVoice />
       <TextToSpeach />
-      <MainRecordingPiper
+      <MainRecording
+        prompt={explorers.piper.prompt}
+        voiceId={explorers.piper.voiceId}
         setMessage={setMessage}
         setSpeaking={setSpeaking}
         setLoading={setLoading}
