@@ -11,18 +11,18 @@ import piper from "../../assets/piper.png";
 import penny from "../../assets/penny.png";
 import pete from "../../assets/pete.png";
 import eric from "../../assets/eric.png";
-import { useHistory, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import Buddy from "../../components/Buddy";
 import audioUrl from "../../music/main-screen.mp3";
 import { useEffect, useRef } from "react";
-
+import { Media } from "@awesome-cordova-plugins/media";
 const Menu = () => {
   const audioRef = useRef<any>(null);
   const location = useLocation();
 
   const playAudio = () => {
-    const audioElement = new Audio(audioUrl);
-    audioElement.volume = 0.1;
+    const audioElement = Media.create(audioUrl);
+    audioElement.setVolume(0.1);
     audioElement.play();
     audioRef.current = audioElement;
   };

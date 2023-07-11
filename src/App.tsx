@@ -22,6 +22,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import "./theme/loader.css";
 import Menu from "./pages/menu/menu";
 import Piper from "./pages/speak/piper";
 import Pete from "./pages/speak/pete";
