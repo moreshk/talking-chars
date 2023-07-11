@@ -34,7 +34,11 @@ const Piper = () => {
         </S.Icons>
         <S.Bubble>
           <S.Text className="comica-regular">
-            {loading ? <div className="dot-pulse" /> : message}
+            {loading ? (
+              <div style={{ marginLeft: "20px" }} className="dot-pulse" />
+            ) : (
+              message
+            )}
           </S.Text>
         </S.Bubble>
         <S.Speaker>
@@ -98,7 +102,7 @@ const S = {
   Text: styled.div`
     position: absolute;
     top: 70px;
-    left: 60px;
+    left: 40px;
     font-size: 20px;
     font-weight: bold;
     color: #000;
