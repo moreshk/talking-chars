@@ -11,12 +11,14 @@ const MainRecording = ({
   setLoading,
   voiceId,
   prompt,
+  setAudio,
 }: {
   setMessage: (str: string) => void;
   setSpeaking: (val: boolean) => void;
   setLoading: (val: boolean) => void;
   voiceId: string;
   prompt: string;
+  setAudio: (audio: HTMLAudioElement) => void;
 }) => {
   const [isPressing, setIsPressing] = useState(false);
   let pressTimer: ReturnType<typeof setTimeout>;
@@ -62,6 +64,7 @@ const MainRecording = ({
           const audioBlob = await voiceResponse.blob();
           const audioUrl = URL.createObjectURL(audioBlob);
           const audioElement = new Audio(audioUrl);
+          setAudio(audioElement);
           setLoading(false);
           setSpeaking(true);
           audioElement.play();
@@ -73,7 +76,7 @@ const MainRecording = ({
           console.log(e);
         }
       });
-    }, 500);
+    }, 0);
   };
 
   const handleButtonRelease = (): void => {

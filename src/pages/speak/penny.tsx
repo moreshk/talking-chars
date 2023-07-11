@@ -12,12 +12,14 @@ import { useState } from "react";
 import TalkingGirl from "../../assets/princess-talking.gif";
 import MainRecording from "../../components/MainRecording";
 import { explorers } from "../../data/explorers";
+import Message from "../../components/message";
 
 const Penny = () => {
   const { push } = useHistory();
   const [message, setMessage] = useState<string | undefined>("");
   const [speaking, setSpeaking] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [audio, setAudio] = useState<HTMLAudioElement | undefined>();
 
   return (
     <IonPage id="penny">
@@ -25,20 +27,21 @@ const Penny = () => {
         <S.Icons>
           <img src={sound} width={30} height={30} />
           <S.ActionButton onClick={() => push("/menu")}>
-            <img
-              src={backButton}
-              width={30}
-              height={30}
-              onClick={() => push("/menu")}
-            />
+            <img src={backButton} width={30} height={30} />
           </S.ActionButton>
         </S.Icons>
-        <S.Bubble>
+        <S.Bubble
+          onClick={() => {
+            if (message && audio && loading === false) {
+              audio.play();
+            }
+          }}
+        >
           <S.Text className="comica-regular">
             {loading ? (
               <div style={{ marginLeft: "20px" }} className="dot-pulse" />
             ) : (
-              message
+              <Message message={message} />
             )}
           </S.Text>
         </S.Bubble>
@@ -62,6 +65,7 @@ const Penny = () => {
         setMessage={setMessage}
         setSpeaking={setSpeaking}
         setLoading={setLoading}
+        setAudio={setAudio}
       />
     </IonPage>
   );
