@@ -1,0 +1,8 @@
+@font-face {
+  font-family: ComicaRegular;
+  src: url("./../fonts/ComicaRegular.otf") format("opentype");
+}
+
+.comica-regular {
+  font-family: ComicaRegular;
+}

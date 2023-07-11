@@ -33,7 +33,9 @@ const Eric = () => {
           </S.ActionButton>
         </S.Icons>
         <S.Bubble>
-          <S.Text>{loading ? <div className="dot-pulse" /> : message}</S.Text>
+          <S.Text className="comica-regular">
+            {loading ? <div className="dot-pulse" /> : message}
+          </S.Text>
         </S.Bubble>
         <S.Speaker>
           <img
@@ -97,7 +99,7 @@ const S = {
     position: absolute;
     top: 70px;
     left: 60px;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     color: #000;
     width: 280px;
