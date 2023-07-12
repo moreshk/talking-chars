@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 import stopRecording from "../assets/stop-recording.png";
 import { SpeechRecognition } from "@ionic-native/speech-recognition";
 import { openai } from "../utils/openAi";
+import { ChatCompletionRequestMessage } from "openai";
 
 const MainRecording = ({
   setMessage,
@@ -12,6 +13,8 @@ const MainRecording = ({
   voiceId,
   prompt,
   setAudio,
+  messageHistory,
+  setMessageHistory,
 }: {
   setMessage: (str: string) => void;
   setSpeaking: (val: boolean) => void;
@@ -19,6 +22,8 @@ const MainRecording = ({
   voiceId: string;
   prompt: string;
   setAudio: (audio: HTMLAudioElement) => void;
+  messageHistory: ChatCompletionRequestMessage[];
+  setMessageHistory: (val: ChatCompletionRequestMessage[]) => void;
 }) => {
   const [isPressing, setIsPressing] = useState(false);
   let pressTimer: ReturnType<typeof setTimeout>;
@@ -31,17 +36,20 @@ const MainRecording = ({
       }).subscribe(async (matches: string[]) => {
         setLoading(true);
         try {
+          const newMessageHistory: ChatCompletionRequestMessage[] = [
+            {
+              role: "system",
+              content: prompt,
+            },
+            ...messageHistory,
+            { role: "user", content: matches[0] },
+          ];
           const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
-            messages: [
-              {
-                role: "system",
-                content: prompt,
-              },
-              { role: "user", content: matches[0] },
-            ],
+            messages: newMessageHistory,
           });
           const response = completion.data.choices[0].message?.content || "";
+          newMessageHistory.push({ role: "system", content: response });
           const voiceResponse = await fetch(
             `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
             {
@@ -61,6 +69,7 @@ const MainRecording = ({
               }),
             }
           );
+          setMessageHistory(newMessageHistory);
           const audioBlob = await voiceResponse.blob();
           const audioUrl = URL.createObjectURL(audioBlob);
           const audioElement = new Audio(audioUrl);

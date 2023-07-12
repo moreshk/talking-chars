@@ -1,6 +1,9 @@
 .menu-background-image {
   background-image: url("../../assets/menu-bg.png");
+  height: 100%;
+  width: 100%;
   background-size: cover;
   background-repeat: no-repeat;
-  height: 100vh;
+  background-position: center;
+  background-size: 100% 100%;
 }

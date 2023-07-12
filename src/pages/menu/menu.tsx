@@ -41,25 +41,27 @@ const Menu = () => {
   return (
     <IonPage id="home-page">
       <IonContent fullscreen>
-        <div className="menu-background-image">
-          <S.Title>
-            <img src={chataBoxImage} />
-          </S.Title>
-          <S.Heading>
-            <img src={chooseBuddy} />
-          </S.Heading>
+        <div>
+          <div className="menu-background-image">
+            <S.Title>
+              <img src={chataBoxImage} />
+            </S.Title>
+            <S.Heading>
+              <img src={chooseBuddy} />
+            </S.Heading>
 
-          <div
-            style={{ display: "flex", justifyContent: "center", gap: "40px" }}
-          >
-            <Buddy titleImg={piper} charImg={PirateGirl} name="piper" />
-            <Buddy titleImg={pete} charImg={PirateBoy} name="pete" />
-          </div>
-          <div
-            style={{ display: "flex", justifyContent: "center", gap: "40px" }}
-          >
-            <Buddy titleImg={pennyThePrincess} charImg={penny} name="penny" />
-            <Buddy titleImg={ericTheExplorer} charImg={eric} name="eric" />
+            <div
+              style={{ display: "flex", justifyContent: "center", gap: "40px" }}
+            >
+              <Buddy titleImg={piper} charImg={PirateGirl} name="piper" />
+              <Buddy titleImg={pete} charImg={PirateBoy} name="pete" />
+            </div>
+            <div
+              style={{ display: "flex", justifyContent: "center", gap: "40px" }}
+            >
+              <Buddy titleImg={pennyThePrincess} charImg={penny} name="penny" />
+              <Buddy titleImg={ericTheExplorer} charImg={eric} name="eric" />
+            </div>
           </div>
         </div>
       </IonContent>

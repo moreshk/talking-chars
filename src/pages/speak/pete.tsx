@@ -13,6 +13,7 @@ import TextToSpeach from "../../components/speachToText";
 import MainRecording from "../../components/MainRecording";
 import { explorers } from "../../data/explorers";
 import Message from "../../components/message";
+import { ChatCompletionRequestMessage } from "openai";
 
 const Pete = () => {
   const [isToastOpen, setIsToastOpen] = useState(false);
@@ -22,7 +23,9 @@ const Pete = () => {
   const [speaking, setSpeaking] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [audio, setAudio] = useState<HTMLAudioElement | undefined>();
-
+  const [messageHistory, setMessageHistory] = useState<
+    ChatCompletionRequestMessage[]
+  >([]);
   return (
     <IonPage id="pete">
       <div className="speak-background-image">
@@ -35,7 +38,11 @@ const Pete = () => {
         <S.Bubble
           onClick={() => {
             if (message && audio && loading === false) {
+              setSpeaking(true);
               audio.play();
+              audio.onended = () => {
+                setSpeaking(false);
+              };
             }
           }}
         >
@@ -63,6 +70,8 @@ const Pete = () => {
           setSpeaking={setSpeaking}
           setLoading={setLoading}
           setAudio={setAudio}
+          messageHistory={messageHistory}
+          setMessageHistory={setMessageHistory}
         />
       </div>
       <IonToast

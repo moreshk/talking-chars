@@ -13,6 +13,7 @@ import TalkingGirl from "../../assets/princess-talking.gif";
 import MainRecording from "../../components/MainRecording";
 import { explorers } from "../../data/explorers";
 import Message from "../../components/message";
+import { ChatCompletionRequestMessage } from "openai";
 
 const Penny = () => {
   const { push } = useHistory();
@@ -20,6 +21,9 @@ const Penny = () => {
   const [speaking, setSpeaking] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [audio, setAudio] = useState<HTMLAudioElement | undefined>();
+  const [messageHistory, setMessageHistory] = useState<
+    ChatCompletionRequestMessage[]
+  >([]);
 
   return (
     <IonPage id="penny">
@@ -33,7 +37,11 @@ const Penny = () => {
         <S.Bubble
           onClick={() => {
             if (message && audio && loading === false) {
+              setSpeaking(true);
               audio.play();
+              audio.onended = () => {
+                setSpeaking(false);
+              };
             }
           }}
         >
@@ -66,6 +74,8 @@ const Penny = () => {
         setSpeaking={setSpeaking}
         setLoading={setLoading}
         setAudio={setAudio}
+        messageHistory={messageHistory}
+        setMessageHistory={setMessageHistory}
       />
     </IonPage>
   );
