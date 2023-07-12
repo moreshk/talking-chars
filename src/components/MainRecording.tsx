@@ -3,8 +3,10 @@ import record from "../assets/record.png";
 import { styled } from "styled-components";
 import stopRecording from "../assets/stop-recording.png";
 import { SpeechRecognition } from "@ionic-native/speech-recognition";
-import { openai } from "../utils/openAi";
+import { openai, openaiVoiceToText } from "../utils/openAi";
 import { ChatCompletionRequestMessage } from "openai";
+import { isPlatform } from "@ionic/react";
+import { RecordingData, VoiceRecorder } from "capacitor-voice-recorder";
 
 const MainRecording = ({
   setMessage,
@@ -27,7 +29,7 @@ const MainRecording = ({
 }) => {
   const [isPressing, setIsPressing] = useState(false);
   let pressTimer: ReturnType<typeof setTimeout>;
-
+  const desktop = isPlatform("desktop");
   const handleButtonPress = (): void => {
     setIsPressing(true);
     pressTimer = setTimeout(() => {
@@ -94,7 +96,48 @@ const MainRecording = ({
     SpeechRecognition.stopListening();
   };
 
-  return (
+  const handleButtonPressDesktop = (): void => {
+    setIsPressing(true);
+    pressTimer = setTimeout(() => {
+      VoiceRecorder.startRecording();
+    });
+  };
+  const handleButtonReleaseDeskTop = async () => {
+    setIsPressing(false);
+    clearTimeout(pressTimer);
+    try {
+      const response = (await VoiceRecorder.stopRecording()) as RecordingData;
+      const base64Sound = response.value.recordDataBase64;
+      const mimeType = response.value.mimeType;
+      const blob = new Blob([base64Sound], { type: mimeType });
+      const audio = new File([blob], "demo.mp4");
+      const openAiresponse = await openaiVoiceToText.createTranscription(
+        audio,
+        "whisper-1"
+      );
+      console.log({ openAiresponse });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  return desktop ? (
+    <S.Record
+      onMouseDown={handleButtonPressDesktop}
+      onMouseUp={handleButtonReleaseDeskTop}
+      onTouchStart={handleButtonPressDesktop}
+      onTouchEnd={handleButtonReleaseDeskTop}
+    >
+      {isPressing ? (
+        <img
+          src={stopRecording}
+          height={80}
+          style={{ pointerEvents: "none" }}
+        />
+      ) : (
+        <img src={record} height={80} style={{ pointerEvents: "none" }} />
+      )}
+    </S.Record>
+  ) : (
     <S.Record
       onMouseDown={handleButtonPress}
       onMouseUp={handleButtonRelease}
