@@ -112,8 +112,9 @@ const MainRecording = ({
       const base64Sound = audioRawData.value.recordDataBase64;
       const mimeType = audioRawData.value.mimeType;
       const url = `data:${mimeType};base64,${base64Sound}`;
+      console.log(mimeType);
       const blob = await fetch(url).then((res) => res.blob());
-      const audio = new File([blob], "demo.webm");
+      const audio = new File([blob], mimeType.split("/")[1]);
       const voiceToText = await openaiVoiceToText.createTranscription(
         audio,
         "whisper-1"
