@@ -165,6 +165,7 @@ const MainRecording = ({
       };
       setMessage(response);
     } catch (e) {
+      setLoading(false);
       console.log(e);
     }
   };
