@@ -43,7 +43,7 @@ const MainRecording = ({
               role: "system",
               content: prompt,
             },
-            ...messageHistory,
+            ...get30(messageHistory),
             { role: "user", content: matches[0] },
           ];
           const completion = await openai.createChatCompletion({
@@ -106,16 +106,63 @@ const MainRecording = ({
     setIsPressing(false);
     clearTimeout(pressTimer);
     try {
-      const response = (await VoiceRecorder.stopRecording()) as RecordingData;
-      const base64Sound = response.value.recordDataBase64;
-      const mimeType = response.value.mimeType;
-      const blob = new Blob([base64Sound], { type: mimeType });
-      const audio = new File([blob], "demo.mp4");
-      const openAiresponse = await openaiVoiceToText.createTranscription(
+      setLoading(true);
+      const audioRawData =
+        (await VoiceRecorder.stopRecording()) as RecordingData;
+      const base64Sound = audioRawData.value.recordDataBase64;
+      const mimeType = audioRawData.value.mimeType;
+      const url = `data:${mimeType};base64,${base64Sound}`;
+      const blob = await fetch(url).then((res) => res.blob());
+      const audio = new File([blob], "demo.webm");
+      const voiceToText = await openaiVoiceToText.createTranscription(
         audio,
         "whisper-1"
       );
-      console.log({ openAiresponse });
+      const newMessageHistory: ChatCompletionRequestMessage[] = [
+        {
+          role: "system",
+          content: prompt,
+        },
+        ...get30(messageHistory),
+        { role: "user", content: voiceToText.data.text },
+      ];
+      const completion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: newMessageHistory,
+      });
+      const response = completion.data.choices[0].message?.content || "";
+      newMessageHistory.push({ role: "system", content: response });
+      const voiceResponse = await fetch(
+        `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "xi-api-key": "54561ffff91ad94269b60d4f8a84edcf",
+          },
+          body: JSON.stringify({
+            text: response,
+            voice_settings: {
+              stability: 0,
+              similarity_boost: 0,
+              style: 0.5,
+              use_speaker_boost: false,
+            },
+          }),
+        }
+      );
+      setMessageHistory(newMessageHistory);
+      const audioBlob = await voiceResponse.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audioElement = new Audio(audioUrl);
+      setAudio(audioElement);
+      setLoading(false);
+      setSpeaking(true);
+      audioElement.play();
+      audioElement.onended = () => {
+        setSpeaking(false);
+      };
+      setMessage(response);
     } catch (e) {
       console.log(e);
     }
@@ -170,4 +217,13 @@ const S = {
     left: 25%;
     background: transparent;
   `,
+};
+
+const get30 = (array: ChatCompletionRequestMessage[]) => {
+  if (array.length > 30) {
+    const newArray = [...array].slice(array.length - 30);
+    return newArray;
+  } else {
+    return array;
+  }
 };
