@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import "./speak.css";
-import { IonPage } from "@ionic/react";
+import { IonPage, isPlatform } from "@ionic/react";
 import sound from "../../assets/sound.png";
 import bubble from "../../assets/speech-bubble.png";
 import backButton from "../../assets/backButton.png";
@@ -21,6 +21,7 @@ const Piper = () => {
   const [speaking, setSpeaking] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [audio, setAudio] = useState<HTMLAudioElement | undefined>();
+  const desktop = isPlatform("desktop");
   const [messageHistory, setMessageHistory] = useState<
     ChatCompletionRequestMessage[]
   >([]);
@@ -65,18 +66,36 @@ const Piper = () => {
           />
         </S.Speaker>
       </div>
-      <RecordVoice />
-      <TextToSpeach />
-      <MainRecording
-        prompt={explorers.piper.prompt}
-        voiceId={explorers.piper.voiceId}
-        setMessage={setMessage}
-        setSpeaking={setSpeaking}
-        setLoading={setLoading}
-        setAudio={setAudio}
-        messageHistory={messageHistory}
-        setMessageHistory={setMessageHistory}
-      />
+      {desktop ? (
+        <div>
+          <RecordVoice />
+          <MainRecording
+            prompt={explorers.pete.prompt}
+            voiceId={explorers.pete.voiceId}
+            setMessage={setMessage}
+            setSpeaking={setSpeaking}
+            setLoading={setLoading}
+            setAudio={setAudio}
+            messageHistory={messageHistory}
+            setMessageHistory={setMessageHistory}
+          />
+        </div>
+      ) : (
+        <>
+          <RecordVoice />
+          <TextToSpeach />
+          <MainRecording
+            prompt={explorers.pete.prompt}
+            voiceId={explorers.pete.voiceId}
+            setMessage={setMessage}
+            setSpeaking={setSpeaking}
+            setLoading={setLoading}
+            setAudio={setAudio}
+            messageHistory={messageHistory}
+            setMessageHistory={setMessageHistory}
+          />
+        </>
+      )}
     </IonPage>
   );
 };

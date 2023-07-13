@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import "./speak.css";
-import { IonPage } from "@ionic/react";
+import { IonPage, isPlatform } from "@ionic/react";
 import sound from "../../assets/sound.png";
 import bubble from "../../assets/speech-bubble.png";
 import backButton from "../../assets/backButton.png";
@@ -17,6 +17,7 @@ import { ChatCompletionRequestMessage } from "openai";
 
 const Eric = () => {
   const { push } = useHistory();
+  const desktop = isPlatform("desktop");
   const [message, setMessage] = useState<string | undefined>("");
   const [speaking, setSpeaking] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -61,18 +62,36 @@ const Eric = () => {
           />
         </S.Speaker>
       </div>
-      <RecordVoice />
-      <TextToSpeach />
-      <MainRecording
-        prompt={explorers.eric.prompt}
-        voiceId={explorers.eric.voiceId}
-        setMessage={setMessage}
-        setSpeaking={setSpeaking}
-        setLoading={setLoading}
-        setAudio={setAudio}
-        messageHistory={messageHistory}
-        setMessageHistory={setMessageHistory}
-      />
+      {desktop ? (
+        <div>
+          <RecordVoice />
+          <MainRecording
+            prompt={explorers.pete.prompt}
+            voiceId={explorers.pete.voiceId}
+            setMessage={setMessage}
+            setSpeaking={setSpeaking}
+            setLoading={setLoading}
+            setAudio={setAudio}
+            messageHistory={messageHistory}
+            setMessageHistory={setMessageHistory}
+          />
+        </div>
+      ) : (
+        <>
+          <RecordVoice />
+          <TextToSpeach />
+          <MainRecording
+            prompt={explorers.pete.prompt}
+            voiceId={explorers.pete.voiceId}
+            setMessage={setMessage}
+            setSpeaking={setSpeaking}
+            setLoading={setLoading}
+            setAudio={setAudio}
+            messageHistory={messageHistory}
+            setMessageHistory={setMessageHistory}
+          />
+        </>
+      )}
     </IonPage>
   );
 };
