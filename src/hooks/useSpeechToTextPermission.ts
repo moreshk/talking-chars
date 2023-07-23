@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SpeechRecognition, } from "@ionic-native/speech-recognition";
+import { SpeechRecognition } from "@capacitor-community/speech-recognition";
 
 const useSpeechToTextPermission = () => {
  const [hasSpeechPermission, setHasSpeechPermission] = useState(false);
@@ -11,10 +11,11 @@ const useSpeechToTextPermission = () => {
 
  const getPermission = async () => {
   try {
-   const isRecognitionAvailable = await SpeechRecognition.isRecognitionAvailable() as boolean;
-   if (isRecognitionAvailable) {
-    const hasPermission = await SpeechRecognition.hasPermission() as boolean;
-    if (hasPermission) {
+   const { available } = await SpeechRecognition.available();
+
+   if (available) {
+    const { speechRecognition } = await SpeechRecognition.requestPermissions();
+    if (speechRecognition === 'granted') {
      setHasSpeechPermission(true);
     }
    }

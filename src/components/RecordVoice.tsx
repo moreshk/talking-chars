@@ -26,7 +26,7 @@ const RecordVoice = () => {
                   refreshPermission();
                 } else {
                   setToastMessage(
-                    "You need to give permission to record audio in your settings"
+                    "You need to give permission to record audio in your settings > chatabox > permissions"
                   );
                   setIsToastOpen(true);
                 }
@@ -35,7 +35,7 @@ const RecordVoice = () => {
                 setIsToastOpen(true);
               }
             } catch (e) {
-              console.log(e);
+              console.log({ e });
             }
           }}
         >
